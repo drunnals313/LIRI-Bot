@@ -1,0 +1,29 @@
+{
+  "name": "liri-bot",
+  "version": "1.0.0",
+  "description": "Language Interpretation and Recognition Interface",
+  "main": "liri.js",
+  "dependencies": {
+    "request": "^2.85.0",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "my-tweets"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drunnals313/LIRI-Bot.git"
+  },
+  "keywords": [
+    "Twitter",
+    "Spotify",
+    "OMDB"
+  ],
+  "author": "Dave Runnals",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drunnals313/LIRI-Bot/issues"
+  },
+  "homepage": "https://github.com/drunnals313/LIRI-Bot#readme"
+}
