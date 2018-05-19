@@ -1,4 +1,4 @@
-var env = require("dotenv").config();
+require('dotenv').config();
 var request = require("request");
 var Twitter = require('twitter');
 //var Spotify = require('node-spotify-api');
