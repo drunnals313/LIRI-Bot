@@ -92,9 +92,9 @@ else if (choiceMade.choose_command === "movie-this"){
           message: "Search a movie, please:"
       }
   ]).then(function(movieSearch){
-      if(movieSearch.val() != ""){
+      if(movieSearch.question.length>1){
           request("http://www.omdbapi.com/?t=" + movieSearch.question + "&apikey=trilogy", function(error, response, body) {
-
+            console.log("text search instance ran");
             if (error) {
                 return console.log(`Error: ${error}`);
             } else {
