@@ -46,7 +46,7 @@ inquirer.prompt([
             message: "Search a song, please (or hit enter for default of The Sign):"
         }
     ]).then(function(songSearch){
-      if(songSearch.question.length>0){
+      if(songSearch.question.length>1){
         spotify.search({
           type: "track",
           query: songSearch,
@@ -54,13 +54,15 @@ inquirer.prompt([
       }, function (error, data) {
         if (error) {
             return console.log(`Error: ${error}`);
-        }
+        } else {
+            console.log(data);
             console.log(`-----------------------------------`);
-            console.log(`Artist Name: ${data.tracks.items.artists[0].name}`);
+            console.log(`Artist Name: ${data.tracks.items.artists.name}`);
             console.log(`Song Name: ${data.tracks.items.name}`);
             console.log(`Preview link of the song from Spotify: ${data.tracks.items.external_urls.spotify}`);
             console.log(`Album Name: ${data.tracks.items.album.name}`);
             console.log(`-----------------------------------`);
+        }
       } 
     ); 
   } 
@@ -73,8 +75,9 @@ inquirer.prompt([
         if (error) {
             return console.log(`Error: ${error}`);
         }
+            console.log(data);
             console.log(`-----------------------------------`);
-            console.log(`Artist Name: ${data.tracks.items.artists[0].name}`);
+            console.log(`Artist Name: ${data.tracks.items.artists.name}`);
             console.log(`Song Name: ${data.tracks.items.name}`);
             console.log(`Preview link of the song from Spotify: ${data.tracks.items.external_urls.spotify}`);
             console.log(`Album Name: ${data.tracks.items.album.name}`);
@@ -100,8 +103,8 @@ else if (choiceMade.choose_command === "movie-this"){
             } else {
             console.log(`Movie Title: ${JSON.parse(body).Title}`);
             console.log(`Release Year: ${JSON.parse(body).Year}`);
-            console.log(`${JSON.parse(body).Ratings[0].Source} IMDB Rating: ${JSON.parse(body).Ratings[0].Value}`);
-            console.log(`${JSON.parse(body).Ratings[1].Source} Rotten Tomatoes Rating: ${JSON.parse(body).Ratings[1].Value}`);
+            console.log('IMDB Rating: ${JSON.parse(body).Ratings[0].Value}`);
+            console.log(`Rotten Tomatoes Rating: ${JSON.parse(body).Ratings[1].Value}`);
             console.log(`Country: ${JSON.parse(body).Country}`);
             console.log(`Language: ${JSON.parse(body).Language}`);
             console.log(`Actors: ${JSON.parse(body).Actors}`);
@@ -117,8 +120,8 @@ else if (choiceMade.choose_command === "movie-this"){
             }
             console.log(`Movie Title: ${JSON.parse(body).Title}`);
             console.log(`Release Year: ${JSON.parse(body).Year}`);
-            console.log(`${JSON.parse(body).Ratings[0].Source} IMDB Rating: ${JSON.parse(body).Ratings[0].Value}`);
-            console.log(`${JSON.parse(body).Ratings[1].Source} Rotten Tomatoes Rating: ${JSON.parse(body).Ratings[1].Value}`);
+            console.log(`IMDB Rating: ${JSON.parse(body).Ratings[0].Value}`);
+            console.log(`Rotten Tomatoes Rating: ${JSON.parse(body).Ratings[1].Value}`);
             console.log(`Country: ${JSON.parse(body).Country}`);
             console.log(`Language: ${JSON.parse(body).Language}`);
             console.log(`Actors: ${JSON.parse(body).Actors}`);
