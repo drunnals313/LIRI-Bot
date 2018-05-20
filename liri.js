@@ -43,7 +43,7 @@ inquirer.prompt([
         {
             name: "question",
             type: "input",
-            message: "Search a song, please:"
+            message: "Search a song, please (or hit enter for default of The Sign):"
         }
     ]).then(function(songSearch){
       if(songSearch != ""){
@@ -89,7 +89,7 @@ else if (choiceMade.choose_command === "movie-this"){
       {
           name: "question",
           type: "input",
-          message: "Search a movie, please:"
+          message: "Search a movie, please (or hit enter for default of Mr Nobody):"
       }
   ]).then(function(movieSearch){
       if(movieSearch.question.length>1){
@@ -143,111 +143,6 @@ else {
 
 
 })
-
-
-/* function myTweets() {
-  var params = {screen_name: 'dave_hopi', count: 20};
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
-      if (error) {
-        console.log('Error occurred: ' + error);
-      } //else {
-        //console.log(tweets);
-        //console.log(response);
-        for (var i = 0; i < tweets.length; i++) {          
-          console.log(`------------------------------`);
-          console.log(`Dave_Hopi Tweet #${i + 1}`);
-          console.log(`Heard at: ${tweets[i].created_at}`);  //"created_at": "Sun Apr 03 23:48:36 +0000 2011", 
-          console.log(`${tweets[i].text}`);                  //"text": "RT @PostGradProblem: In preparation for the NFL lockout,...
-          console.log(`------------------------------`);
-      }
-    //}
-    });
-}; */
- /* 
- function OMDBSearch(args3){
-  if (!args3) {
-        searchM = "Mr Nobody";
-    } else {
-        for (var i = 3; i < args.length; i++) {
-            if (i > 3 && i < args.length) {
-                searchM = searchM + "+" + arg[i];
-            } else {
-                searchM += input[i];
-            }
-        }
-    }
-    var queryUrl =
-        "http://www.omdbapi.com/?t=" +
-        searchM +
-        "&y=&plot=short&apikey=trilogy";  
-    request(queryUrl, function (error, response, body) {
-        if (error) {
-            return console.log(`Error occurred: ${error}`);
-        }
-        console.log(`Movie Title: ${JSON.parse(body).Title}`);
-        console.log(`Release Year: ${JSON.parse(body).Year}`);
-        console.log(`${JSON.parse(body).Ratings[0].Source} Rating: ${JSON.parse(body).Ratings[0].Value}`);
-        console.log(`${JSON.parse(body).Ratings[1].Source} Rating: ${JSON.parse(body).Ratings[1].Value}`);
-        console.log(`Country: ${JSON.parse(body).Country}`);
-        console.log(`Language: ${JSON.parse(body).Language}`);
-        console.log(`Actors: ${JSON.parse(body).Actors}`);
-        console.log(`Plot: ${JSON.parse(body).Plot}`);
-    });
-}
-
-function spotifySearch(args) {
-
-}
-
-function readRandom() {
-  fs.readFile("random.txt", "utf8", function (error, data) {
-    if (err) {
-        return console.log(`Error occurred: ${error}`);
-    }
-    console.log(`Executing: ${data}`);
-})
-};  
-
-function initiate(args) {
-  switch (args[2]) {
-      case "my-tweets":
-          myTweets();
-          break;
-      case "movie-this":
-          OMDBSearch(args);
-          break; 
-      case "spotify-this-song":
-          spotifySearch(args);
-          break;
-      case "do-what-it-says":
-          readRandom();
-          break;  
-      default:
-          console.log("Sorry, wrong input");
-  }
-}
-
-initiate(args);
- 
- */
-
-
-
-
-
-
-
-
-
- /*
-spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-  if (err) {
-    return console.log('Error occurred: ' + err);
-  }
- 
-console.log(data); 
-});
- */
 
 
 
