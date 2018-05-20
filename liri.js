@@ -6,29 +6,152 @@ var inquirer = require("inquirer");
 var keys = require("./keys.js");    //should this be ./keys only?
 var fs = require('fs');   // do I need this to read the random.txt file later?
 
+
 var client = new Twitter(keys.twitter);
 //var spotify = new Spotify(keys.spotify);
 
-var args = process.argv;
+//var args2 = process.argv[2];
+//var args3 = process.argv[3];
 
 var searchM = '';
-/* inquirer.prompt([
+
+inquirer.prompt([
   {
       name: "choose_command",
       message: "Choose a LIRI command to run.",
       type: "list",
       choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"]
   }
-]).then function */
+]).then (function(choiceMade){
+  if(choiceMade.choose_command === "my-tweets"){
+    var params = {screen_name: 'dave_hopi', count: 20};
+    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+      if (error) {
+        console.log('Error occurred: ' + error);
+      } 
+        for (var i = 0; i < tweets.length; i++) {          
+          console.log(`------------------------------`);
+          console.log(`Dave_Hopi Tweet #${i + 1}`);
+          console.log(`Heard at: ${tweets[i].created_at}`);  //"created_at": "Sun Apr 03 23:48:36 +0000 2011", 
+          console.log(`${tweets[i].text}`);                  //"text": "RT @PostGradProblem: In preparation for the NFL lockout,...
+          console.log(`------------------------------`);
+      }
+    });
+  }
+  else if (choiceMade.choose_command === "spotify-this-song"){
+    inquirer.prompt([
+        {
+            name: "question",
+            type: "input",
+            message: "Search a song, please:"
+        }
+    ]).then(function(songSearch){
+      if(songSearch != ""){
+        spotify.search({
+          type: "track",
+          query: songSearch,
+          limit: 1
+      }, function (error, data) {
+        if (error) {
+            return console.log(`Error: ${error}`);
+        }
+            console.log(`-----------------------------------`);
+            console.log(`Artist Name: ${data.tracks.items.artists[0].name}`);
+            console.log(`Song Name: ${data.tracks.items.name}`);
+            console.log(`Preview link of the song from Spotify: ${data.tracks.items.external_urls.spotify}`);
+            console.log(`Album Name: ${data.tracks.items.album.name}`);
+            console.log(`-----------------------------------`);
+      } 
+    ); 
+  } 
+      else {
+        spotify.search({
+          type: "track",
+          query: "The Sign",
+          limit: 1
+      }, function (error, data) {
+        if (error) {
+            return console.log(`Error: ${error}`);
+        }
+            console.log(`-----------------------------------`);
+            console.log(`Artist Name: ${data.tracks.items.artists[0].name}`);
+            console.log(`Song Name: ${data.tracks.items.name}`);
+            console.log(`Preview link of the song from Spotify: ${data.tracks.items.external_urls.spotify}`);
+            console.log(`Album Name: ${data.tracks.items.album.name}`);
+            console.log(`-----------------------------------`);
+      } 
+    );  
+    }
+});
+}
+else if (choiceMade.choose_command === "movie-this"){
+  inquirer.prompt([
+      {
+          name: "question",
+          type: "input",
+          message: "Search a movie, please:"
+      }
+  ]).then(function(movieSearch){
+      if(movieSearch.val() != ""){
+          request("http://www.omdbapi.com/?t=" + movieSearch.question + "&apikey=trilogy", function(error, response, body) {
+
+            if (error) {
+                return console.log(`Error: ${error}`);
+            } else {
+            console.log(`Movie Title: ${JSON.parse(body).Title}`);
+            console.log(`Release Year: ${JSON.parse(body).Year}`);
+            console.log(`${JSON.parse(body).Ratings[0].Source} IMDB Rating: ${JSON.parse(body).Ratings[0].Value}`);
+            console.log(`${JSON.parse(body).Ratings[1].Source} Rotten Tomatoes Rating: ${JSON.parse(body).Ratings[1].Value}`);
+            console.log(`Country: ${JSON.parse(body).Country}`);
+            console.log(`Language: ${JSON.parse(body).Language}`);
+            console.log(`Actors: ${JSON.parse(body).Actors}`);
+            console.log(`Plot: ${JSON.parse(body).Plot}`);
+            }
+          });
+      }     
+      else{
+          request("http://www.omdbapi.com/?t=mr%20nobody&apikey=trilogy", function(error, response, body) {
+
+            if (error) {
+                return console.log(`Error: ${error}`);
+            }
+            console.log(`Movie Title: ${JSON.parse(body).Title}`);
+            console.log(`Release Year: ${JSON.parse(body).Year}`);
+            console.log(`${JSON.parse(body).Ratings[0].Source} IMDB Rating: ${JSON.parse(body).Ratings[0].Value}`);
+            console.log(`${JSON.parse(body).Ratings[1].Source} Rotten Tomatoes Rating: ${JSON.parse(body).Ratings[1].Value}`);
+            console.log(`Country: ${JSON.parse(body).Country}`);
+            console.log(`Language: ${JSON.parse(body).Language}`);
+            console.log(`Actors: ${JSON.parse(body).Actors}`);
+            console.log(`Plot: ${JSON.parse(body).Plot}`);
+
+          });
+      };
+  });
+}
+else if (choiceMade.choose_commande === "do-what-it-says"){
+  fs.readFile("random.txt", "utf8", function (error, data) {
+    if (error) {
+        return console.log(`Error: ${error}`);
+    }
+    console.log(`Display: ${data}`);
+});
+}
+else {
+  return console.log("No choice, no results; sorry!");
+};
 
 
-function myTweets() {
+
+})
+
+
+/* function myTweets() {
   var params = {screen_name: 'dave_hopi', count: 20};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
       if (error) {
         console.log('Error occurred: ' + error);
       } //else {
-        console.log(tweets);
+        //console.log(tweets);
         //console.log(response);
         for (var i = 0; i < tweets.length; i++) {          
           console.log(`------------------------------`);
@@ -39,15 +162,15 @@ function myTweets() {
       }
     //}
     });
-};
-/* 
- function OMDBSearch(args){
-  if (!args[3]) {
+}; */
+ /* 
+ function OMDBSearch(args3){
+  if (!args3) {
         searchM = "Mr Nobody";
     } else {
-        for (var i = 3; i < input.length; i++) {
-            if (i > 3 && i < input.length) {
-                searchM = searchM + "+" + input[i];
+        for (var i = 3; i < args.length; i++) {
+            if (i > 3 && i < args.length) {
+                searchM = searchM + "+" + arg[i];
             } else {
                 searchM += input[i];
             }
@@ -56,18 +179,16 @@ function myTweets() {
     var queryUrl =
         "http://www.omdbapi.com/?t=" +
         searchM +
-        "&y=&plot=short&apikey=9fe10b9b-1053-4bbb-9e13-156d4debb7c0";  //should I be storing my API key in a secure or private location?
-    request(queryUrl, function (err, response, body) {
-        if (err) {
-            return console.log(`Error occurred: ${err}`);
+        "&y=&plot=short&apikey=trilogy";  
+    request(queryUrl, function (error, response, body) {
+        if (error) {
+            return console.log(`Error occurred: ${error}`);
         }
         console.log(`Movie Title: ${JSON.parse(body).Title}`);
         console.log(`Release Year: ${JSON.parse(body).Year}`);
-        console.log(`${JSON.parse(body).Ratings[0].Source} Rating: ${
-        JSON.parse(body).Ratings[0].Value}`);
-        console.log(`${JSON.parse(body).Ratings[1].Source} Rating: ${
-        JSON.parse(body).Ratings[1].Value}`);
-        console.log(`Country Movie was Produced: ${JSON.parse(body).Country}`);
+        console.log(`${JSON.parse(body).Ratings[0].Source} Rating: ${JSON.parse(body).Ratings[0].Value}`);
+        console.log(`${JSON.parse(body).Ratings[1].Source} Rating: ${JSON.parse(body).Ratings[1].Value}`);
+        console.log(`Country: ${JSON.parse(body).Country}`);
         console.log(`Language: ${JSON.parse(body).Language}`);
         console.log(`Actors: ${JSON.parse(body).Actors}`);
         console.log(`Plot: ${JSON.parse(body).Plot}`);
@@ -85,14 +206,14 @@ function readRandom() {
     }
     console.log(`Executing: ${data}`);
 })
-};  */
+};  
 
 function initiate(args) {
   switch (args[2]) {
       case "my-tweets":
           myTweets();
           break;
-/*       case "movie-this":
+      case "movie-this":
           OMDBSearch(args);
           break; 
       case "spotify-this-song":
@@ -100,7 +221,7 @@ function initiate(args) {
           break;
       case "do-what-it-says":
           readRandom();
-          break;  */
+          break;  
       default:
           console.log("Sorry, wrong input");
   }
@@ -108,7 +229,7 @@ function initiate(args) {
 
 initiate(args);
  
-
+ */
 
 
 
