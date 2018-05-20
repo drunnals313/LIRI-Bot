@@ -1,19 +1,19 @@
 require('dotenv').config();
 var request = require("request");
 var Twitter = require('twitter');
-//var Spotify = require('node-spotify-api');
+var Spotify = require('node-spotify-api');
 var inquirer = require("inquirer");
 var keys = require("./keys.js");    //should this be ./keys only?
 var fs = require('fs');   // do I need this to read the random.txt file later?
 
 
 var client = new Twitter(keys.twitter);
-//var spotify = new Spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify);
 
 //var args2 = process.argv[2];
 //var args3 = process.argv[3];
 
-var searchM = '';
+//var searchM = '';
 
 inquirer.prompt([
   {
@@ -46,7 +46,7 @@ inquirer.prompt([
             message: "Search a song, please (or hit enter for default of The Sign):"
         }
     ]).then(function(songSearch){
-      if(songSearch != ""){
+      if(songSearch.question.length>0){
         spotify.search({
           type: "track",
           query: songSearch,
@@ -92,7 +92,7 @@ else if (choiceMade.choose_command === "movie-this"){
           message: "Search a movie, please (or hit enter for default of Mr Nobody):"
       }
   ]).then(function(movieSearch){
-      if(movieSearch.question.length>1){
+      if(movieSearch.question.length>0){
           request("http://www.omdbapi.com/?t=" + movieSearch.question + "&apikey=trilogy", function(error, response, body) {
             console.log("text search instance ran");
             if (error) {
