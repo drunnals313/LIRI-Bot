@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "my-tweets"
+    "test": "node liri.js"
   },
   "repository": {
     "type": "git",
