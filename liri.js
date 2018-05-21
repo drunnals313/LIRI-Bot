@@ -40,7 +40,7 @@ inquirer.prompt([
               message: "Search a song, please (or hit enter for default of The Sign):"
           }
       ]).then(function(songSearch){
-        if(songSearch.question.length>1){
+        if(songSearch.question.length>1){                       //still not getting relevant spotify search results back   need to find the correct parameter maybe
           spotify.search({
             type: "track",
             query: songSearch.question,
@@ -49,8 +49,6 @@ inquirer.prompt([
           if (error) {
               return console.log(`Error1: ${error}`);
           } else {
-              console.log(data);
-              console.log(data.tracks.items.Object);
               console.log(`-----------------------------------`);
               console.log(`Artist Name: ${data.tracks.items[0].artists[0].name}`);
               console.log(`Song Name: ${data.tracks.items[0].name}`);
@@ -70,7 +68,6 @@ inquirer.prompt([
           if (error) {
               return console.log(`Error2: ${error}`);
           }
-              console.log(data);
               console.log(`-----------------------------------`);
               console.log(`Artist Name: ${data.tracks.items[0].artists.name}`);
               console.log(`Song Name: ${data.tracks.items[0].name}`);
@@ -92,7 +89,6 @@ inquirer.prompt([
     ]).then(function(movieSearch){
         if(movieSearch.question.length>0){
             request("http://www.omdbapi.com/?t=" + movieSearch.question + "&apikey=trilogy", function(error, response, body) {
-              console.log("text search instance ran");
               if (error) {
                   return console.log(`Error: ${error}`);
               } else {
@@ -131,7 +127,6 @@ inquirer.prompt([
       if (error) {
           return console.log(`Error: ${error}`);
       }
-      console.log(`Display: ${data}`);
           spotify.search({
             type: "track",
             query: data,
@@ -140,7 +135,6 @@ inquirer.prompt([
           if (error) {
               return console.log(`Error: ${error}`);
           } else {
-              console.log(data);
               console.log(`-----------------------------------`);
               console.log(`Artist Name: ${data.tracks.items[0].artists.name}`);
               console.log(`Song Name: ${data.tracks.items[0].name}`);
